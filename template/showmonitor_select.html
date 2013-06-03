@@ -1,0 +1,19 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html><head>
+</script>
+<title>监视地图</title></head>
+<body>
+
+
+<div  id="selectmap">
+
+<h1>请选地图:</h1><br/>
+{% for datalist in datalists  %}
+<a href="/showmonitor?cmdid={{datalist.id}}">{{datalist.mapname}}</a><br/>
+
+{% endfor %}
+
+</div>
+</body>
+</html>

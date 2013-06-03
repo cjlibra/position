@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html><head>
+<script type="text/javascript" src="upload/js/jquery-1.9.1.min.js"></script>
+
+<script>
+var info;//=[{"id":"1","x1":200,"y1":200,"x2":20,"y2":100},{"id":"2","x1":120,"y1":120,"x2":650,"y2":20},{"id":"3","x1":300,"y1":200,"x2":600,"y2":800},];
+var nstep=10;
+var s = 300;
+
+
+
+
+function getdatafromurl()
+{
+
+	$.ajax({type:"GET" , url:"getwhereis" , cache:false  , dataType:"text" , success:function(data){callback(data);}}); 
+
+}
+
+function callback(data)
+{
+	info = $.parseJSON(data);
+
+	
+	for (var oneinfo in info){
+		var img1 = document.getElementById(info[oneinfo].id.toString());
+		var origx = img1.style.pixelLeft;
+		var origy = img1.style.pixelTop;
+		
+	
+		
+		setTimeout("walk("+oneinfo+","+origx+","+origy+")",s);
+	
+    }
+
+}
+function walk(oneinfo, origx, origy)
+{
+	var timeSet;
+	var xflag;
+	var yflag;
+	var outloop;
+	
+				
+		if (info[oneinfo].x  > origx) {
+		    xflag = 1;
+		}else{
+			xflag = -1;
+		}
+		
+		if (info[oneinfo].y  >origy) {
+			yflag = 1;
+		}else{
+			yflag = -1;
+		}
+		var img1 = document.getElementById(info[oneinfo].id.toString());
+		img1.style.pixelLeft = img1.style.pixelLeft + xflag * nstep;
+		
+		img1.style.pixelTop = img1.style.pixelTop + yflag * Math.abs((info[oneinfo].y-origy)/((info[oneinfo].x-origx)/nstep))
+		if (xflag == 1) {
+			if (img1.style.pixelLeft >= info[oneinfo].x ){
+				
+				img1.style.pixelLeft = info[oneinfo].x ;
+				img1.style.pixelTop = info[oneinfo].y;
+				clearTimeout( outloop);
+				return;
+				
+			}
+			outloop =setTimeout("walk("+oneinfo+","+origx+","+origy+")",s);
+			
+	    }else{
+			if (img1.style.pixelLeft <=info[oneinfo].x ){
+				
+				img1.style.pixelLeft = info[oneinfo].x ;
+				img1.style.pixelTop = info[oneinfo].y;
+				clearTimeout( outloop);
+				return;
+			}
+			outloop = setTimeout("walk("+oneinfo+","+origx+","+origy+")",s);
+		
+		}
+	
+	
+	
+
+}
+function getfromurl(){
+	//$.get("getwhereis",null,dealdata);
+	$.ajax({
+type:"GET" ,
+url:"getwhereis" ,
+cache:false,
+dataType:"text",
+success:function(data){
+dealdata(data);
+}
+}); 
+}
+function dealdata(data){
+	info = $.parseJSON(data);
+	initpage();
+}
+function initpage(){
+    
+	var oneinfo;
+	var div1 = document.getElementById("imgholder");
+	mystr = ' <img src="upload/upload/jiantou.gif	"  id="%t" alt="%w" style=" position:absolute;  "  />'  ;
+	mystrs="";
+	 
+	for (var oneinfo in info){
+		
+		mystrs += mystr.replace("%w",info[oneinfo].name).replace("%t",info[oneinfo].id.toString());
+		div1.innerHTML=mystrs;
+	}
+    for (var oneinfo in info){
+		var img1 = document.getElementById(info[oneinfo].id);
+		img1.style.pixelLeft = 0;
+		img1.style.pixelTop = 0;
+		
+	}
+	setInterval("getdatafromurl()",3000);
+}
+
+window.onload = getfromurl;
+</script>
+<title>监视地图</title></head>
+<body>
+
+<div id=showmap  style="display:block">
+<div style="width:1000px; height:2000px; border:#000000 solid 1px; position:absolute" id="main" >
+<img src="{{mapsrcfile}}"  style=" position:absolute; " id="pic1" />
+<div id="imgholder">
+	
+</div>
+</div>
+</div>
+
+
+</body>
+</html>
