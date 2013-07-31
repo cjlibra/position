@@ -1,6 +1,10 @@
 from django.conf.urls import patterns, include, url
 from django.conf import settings
 from   setit.views  import *
+
+#from django.views.generic  import redirect_to  
+from django.views.generic import RedirectView  
+
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
@@ -19,6 +23,9 @@ urlpatterns = patterns('',
 	url(r'^showmonitor',showmonitor),
 	url(r'^getwhereis',getwhereis),
     url(r'^admin/', include(admin.site.urls)),
+	##url(r'^/$', redirect_to, {'url': '/upload/main/main.html'}), 
+	url(r'^$', RedirectView.as_view(url='/upload/main/main.html')),  
+	
 	
 	url(r'^upload/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT,}),
 )
