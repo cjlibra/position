@@ -12,6 +12,8 @@ import json
 
 
 def getwhereis(request):
+	mapid = request.GET["mapid"]
+	mapobj = get_object_or_404(Maps, pk=int(mapid))
 	labels = Labels.objects.all()
 	oinfolist = []
 	count =0
@@ -20,6 +22,8 @@ def getwhereis(request):
 		try:
 			winfoget = whereinfo.objects.filter(label=label).order_by("-realtime")[0]
 		except:
+			continue
+		if winfoget.stayer.address.whichmap != mapobj :
 			continue
 		oneinfo["id"] = winfoget.label.serialno
 		oneinfo["name"] = winfoget.label.attachwho.name
@@ -39,8 +43,9 @@ def showmonitor(request):
 	
 	
 	mapget = get_object_or_404(Maps, pk=int(cmdid))
+	positions = addresses.objects.filter(whichmap=mapget)
 	
-	return render_to_response('showmonitor.html',{'mapsrcfile':"upload/" + str(mapget.map)})
+	return render_to_response('showmonitor.html',{'mapsrcfile':"upload/" + str(mapget.map),'positions':positions,'mapid':cmdid})
 
 def setmap(request):
 	datalists = Maps.objects.all()
@@ -48,6 +53,19 @@ def setmap(request):
 		
 	return render_to_response('setmap.html',{'datalists':datalists})
 	
+def showstayer(request):
+	mapid = request.GET["mapid"]
+	mapobj = get_object_or_404(Maps, pk=int(mapid))
+	addrs = addresses.objects.filter(whichmap=mapobj)
+	addrsinfo=[]
+	for addr in addrs:
+		oneaddrinfo={}
+		oneaddrinfo["addr"]= addr.address
+		oneaddrinfo["x"]=addr.xpixel
+		oneaddrinfo["y"]=addr.ypixel
+		addrsinfo.append(oneaddrinfo)
+	return HttpResponse(json.dumps(addrsinfo))
+
 
 def possubmit(request):
 	whichmap = request.POST["hidden1"]

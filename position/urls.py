@@ -22,6 +22,8 @@ urlpatterns = patterns('',
 	url(r'^possubmit',possubmit),
 	url(r'^showmonitor',showmonitor),
 	url(r'^getwhereis',getwhereis),
+	url(r'^showstayer',showstayer),
+	
     url(r'^admin/', include(admin.site.urls)),
 	##url(r'^/$', redirect_to, {'url': '/upload/main/main.html'}), 
 	url(r'^$', RedirectView.as_view(url='/upload/main/main.html')),  

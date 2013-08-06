@@ -90,6 +90,10 @@ function possubmit(){
 <div id="imgholder">
 	
 </div>
+<div id="imgholder">
+ {% for position in positions %}<img src="upload/img/baseAP_green.png	" alt="{{position.address}}"   style=" position:absolute;left:{{position.xpixel }}px  ;top:{{position.ypixel}}px  ;  "  /> {% endfor %} 
+	
+</div>
 </div>
 </div>
 <div id=showsubmit  style="display:none">

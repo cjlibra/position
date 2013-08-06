@@ -14,7 +14,7 @@ var s = 300;
 function getdatafromurl()
 {
 
-	$.ajax({type:"GET" , url:"getwhereis" , cache:false  , dataType:"text" , success:function(data){callback(data);}}); 
+	$.ajax({type:"GET" , url:"getwhereis?mapid={{mapid}}" , cache:false  , dataType:"text" , success:function(data){callback(data);}}); 
 
 }
 
@@ -89,7 +89,7 @@ function getfromurl(){
 	//$.get("getwhereis",null,dealdata);
 	$.ajax({
 type:"GET" ,
-url:"getwhereis" ,
+url:"getwhereis?mapid={{mapid}}" ,
 cache:false,
 dataType:"text",
 success:function(data){
@@ -120,8 +120,15 @@ function initpage(){
 		
 	}
 	setInterval("getdatafromurl()",3000);
+	putAp(); 
 }
+function putAp(){
+	var div1 = document.getElementById("apholder");
+	mystrs = '{% for position in positions %}<img src="upload/img/baseAP_green.png	" alt="{{position.address}}"   style=" position:absolute;left:{{position.xpixel }}px  ;top:{{position.ypixel}}px  ;  "  /> {% endfor %}';
+	 
+	div1.innerHTML=mystrs; 
 
+}
 window.onload = getfromurl;
 </script>
 <title>监视地图</title></head>
@@ -133,9 +140,10 @@ window.onload = getfromurl;
 <div id="imgholder">
 	
 </div>
-</div>
-</div>
 
+</div>
+</div>
+<div id ="apholder"><img src="upload/img/baseAP_green.png" style=" position:absolute;left:100px  ;top:200px"  /></div>
 
 </body>
 </html>

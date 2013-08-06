@@ -1,9 +1,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <html><head>
+<script type="text/javascript" src="/upload/js/jquery-1.9.1.min.js"></script>
 <script>
 
-
+var stayerinfo;
 function getMousePos1(event) {
 var e = event || window.event;
 x = e.clientX;
@@ -70,6 +71,8 @@ function showmapdiv(){
 	s1.style.display="block";
 	var s3 = document.getElementById("pic1");
 	pic1.src = "../upload/" + window.document.getElementById('maps').value ;
+	var mapid = window.document.getElementById('maps').selectedIndex ;
+	getfromurl(mapid);
 }
 
 function showselectmapdiv(){
@@ -88,7 +91,28 @@ function possubmit(){
    s2.submit();
 }
 
+function getfromurl(mapid){
+$.ajax({
+type:"GET" ,
+url:"showstayer?mapid="+mapid ,
+cache:false,
+dataType:"text",
+success:function(data){
+dealdata(data);
+}
+}); 
+}
 
+function dealdata(data){
+	stayerinfo = $.parseJSON(data);
+	var div1 = document.getElementById("apholder");
+	for (var onestayer in stayinfo) {
+		mystrs = ' <img src="upload/img/baseAP_green.png	" alt="'+onestayer.addr+'"   style=" position:absolute;left:'+onestayer.x+'px  ;top:'+onestayer.y+'px  ;  "  />  ';
+	 }
+	div1.innerHTML=mystrs; 
+
+	 
+}
 
 document.ondblclick = showselectmapdiv;
 </script>
@@ -115,6 +139,7 @@ document.ondblclick = showselectmapdiv;
 <div id="imgholder">
 	
 </div>
+<div id="imgholder"></div>
 </div>
 </div>
 <div  id="backit"  style="display:none">
