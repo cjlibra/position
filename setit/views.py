@@ -72,11 +72,16 @@ def possubmit(request):
 	whereis = request.POST["mapcomments"]
 	xpixel = request.POST["xpixel"]
 	ypixel = request.POST["ypixel"]
+	apid = request.POST["apname"]
+	apcomments = request.POST["apcomments"]
 	if (whichmap == "" or whereis == "" or xpixel=="" or ypixel=="") :
 		return  HttpResponse("<h1>输入出错</h1>")
 	mapget = get_object_or_404(Maps, pk=int(whichmap))
 	selectmapsrc = "upload/" +str( mapget.map)
 	addr = addresses(whichmap=mapget ,address=whereis,xpixel=int(xpixel),ypixel=int(ypixel))
 	addr.save()
+	stayer = Stayer(serialno=apid,address=addr,comments=apcomments)
+	stayer.save()
+	positions = addresses.objects.filter(whichmap=mapget)
 	#return HttpResponse("""<h1>成功添加基站</h1><a href="javascript:window.history.go(-1)">回到前一页</a>""")
-	return render_to_response('mappic.html',{'selectmapsrc':selectmapsrc, 'mapid':mapget.id})
+	return render_to_response('mappic.html',{'selectmapsrc':selectmapsrc, 'mapid':mapget.id,'positions':positions})

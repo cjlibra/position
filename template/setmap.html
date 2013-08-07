@@ -94,7 +94,7 @@ function possubmit(){
 function getfromurl(mapid){
 $.ajax({
 type:"GET" ,
-url:"showstayer?mapid="+mapid ,
+url:"/showstayer?mapid="+mapid ,
 cache:false,
 dataType:"text",
 success:function(data){
@@ -104,10 +104,11 @@ dealdata(data);
 }
 
 function dealdata(data){
-	stayerinfo = $.parseJSON(data);
+	var stayerinfo = $.parseJSON(data);
+	var mystrs="";
 	var div1 = document.getElementById("apholder");
-	for (var onestayer in stayinfo) {
-		mystrs = ' <img src="upload/img/baseAP_green.png	" alt="'+onestayer.addr+'"   style=" position:absolute;left:'+onestayer.x+'px  ;top:'+onestayer.y+'px  ;  "  />  ';
+	for (var onestayer in stayerinfo) {
+		mystrs += ' <img src="/upload/img/baseAP_green.png	" alt="'+stayerinfo[onestayer].addr+'"   style=" position:absolute;left:'+stayerinfo[onestayer].x+'px  ;top:'+stayerinfo[onestayer].y+'px  ;  "  />  ';
 	 }
 	div1.innerHTML=mystrs; 
 
@@ -139,7 +140,7 @@ document.ondblclick = showselectmapdiv;
 <div id="imgholder">
 	
 </div>
-<div id="imgholder"></div>
+<div id="apholder"></div>
 </div>
 </div>
 <div  id="backit"  style="display:none">
@@ -155,6 +156,8 @@ document.ondblclick = showselectmapdiv;
 <a>位置：</a><input type="text"  value="请简要说明位置！" id="mapcomments" name="mapcomments"><br>
 <a>x轴：</a><input type="text"  value="xxx"  id="xpixel" name="xpixel"><br>
 <a>y轴：</a><input type="text" value="yyy" id="ypixel" name="ypixel"><br>
+<a>基站唯一码：</a><input type="text"  value=" " id="apid" name="apname"><br>
+<a>基站说明：</a><input type="text"  value="请简要说明基站！" id="apcomments" name="apcomments"><br>
 <input type="button" onclick="possubmit();" value="Submit">
 <br></form>
 
