@@ -70,7 +70,7 @@ function showmapdiv(){
 	var s1 = document.getElementById("showmap");
 	s1.style.display="block";
 	var s3 = document.getElementById("pic1");
-	pic1.src = "../upload/" + window.document.getElementById('maps').value ;
+	pic1.src = "../media/" + window.document.getElementById('maps').value ;
 	var mapid = window.document.getElementById('maps').selectedIndex ;
 	getfromurl(mapid);
 }
@@ -108,7 +108,7 @@ function dealdata(data){
 	var mystrs="";
 	var div1 = document.getElementById("apholder");
 	for (var onestayer in stayerinfo) {
-		mystrs += ' <img src="/upload/img/baseAP_green.png	" alt="'+stayerinfo[onestayer].addr+'"   style=" position:absolute;left:'+stayerinfo[onestayer].x+'px  ;top:'+stayerinfo[onestayer].y+'px  ;  "  />  ';
+		mystrs += ' <img src="/static/img/baseAP_green.png	" alt="'+stayerinfo[onestayer].addr+'"   style=" position:absolute;left:'+stayerinfo[onestayer].x+'px  ;top:'+stayerinfo[onestayer].y+'px  ;  "  />  ';
 	 }
 	div1.innerHTML=mystrs; 
 

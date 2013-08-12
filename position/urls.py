@@ -25,9 +25,9 @@ urlpatterns = patterns('',
 	url(r'^showstayer',showstayer),
 	
     url(r'^admin/', include(admin.site.urls)),
-	##url(r'^/$', redirect_to, {'url': '/upload/main/main.html'}), 
-	url(r'^$', RedirectView.as_view(url='/upload/main/main.html')),  
+	##url(r'^/$', redirect_to, {'url': '/static/main/main.html'}), 
+	url(r'^$', RedirectView.as_view(url='/static/main/main.html')),  
 	
-	
-	url(r'^upload/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT,}),
+	url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT,}),
+	#url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT,}),
 )

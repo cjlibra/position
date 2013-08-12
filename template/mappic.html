@@ -64,7 +64,7 @@ function showmapdiv(){
 	var s1 = document.getElementById("showmap");
 	s1.style.display="block";
 	var s3 = document.getElementById("pic1");
-	pic1.src = "../upload/" + window.document.getElementById('maps').value ;
+	pic1.src = "../media/" + window.document.getElementById('maps').value ;
 }
 
 
@@ -91,7 +91,7 @@ function possubmit(){
 	
 </div>
 <div id="imgholder">
- {% for position in positions %}<img src="upload/img/baseAP_green.png	" alt="{{position.address}}"   style=" position:absolute;left:{{position.xpixel }}px  ;top:{{position.ypixel}}px  ;  "  /> {% endfor %} 
+ {% for position in positions %}<img src="/static/img/baseAP_green.png	" alt="{{position.address}}"   style=" position:absolute;left:{{position.xpixel }}px  ;top:{{position.ypixel}}px  ;  "  /> {% endfor %} 
 	
 </div>
 </div>

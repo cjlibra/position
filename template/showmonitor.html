@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <html><head>
-<script type="text/javascript" src="upload/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery-1.9.1.min.js"></script>
 
 <script>
 var info;//=[{"id":"1","x1":200,"y1":200,"x2":20,"y2":100},{"id":"2","x1":120,"y1":120,"x2":650,"y2":20},{"id":"3","x1":300,"y1":200,"x2":600,"y2":800},];
@@ -105,7 +105,7 @@ function initpage(){
     
 	var oneinfo;
 	var div1 = document.getElementById("imgholder");
-	mystr = ' <img src="upload/upload/jiantou.gif	"  id="%t" alt="%w" style=" position:absolute;  "  />'  ;
+	mystr = ' <img src="/static/upload/jiantou.gif	"  id="%t" alt="%w" style=" position:absolute;  "  />'  ;
 	mystrs="";
 	 
 	for (var oneinfo in info){
@@ -124,7 +124,7 @@ function initpage(){
 }
 function putAp(){
 	var div1 = document.getElementById("apholder");
-	mystrs = '{% for position in positions %}<img src="upload/img/baseAP_green.png	" alt="{{position.address}}"   style=" position:absolute;left:{{position.xpixel }}px  ;top:{{position.ypixel}}px  ;  "  /> {% endfor %}';
+	mystrs = '{% for position in positions %}<img src="/static/img/baseAP_green.png	" alt="{{position.address}}"   style=" position:absolute;left:{{position.xpixel }}px  ;top:{{position.ypixel}}px  ;  "  /> {% endfor %}';
 	 
 	div1.innerHTML=mystrs; 
 
@@ -143,7 +143,7 @@ window.onload = getfromurl;
 
 </div>
 </div>
-<div id ="apholder"><img src="upload/img/baseAP_green.png" style=" position:absolute;left:100px  ;top:200px"  /></div>
+<div id ="apholder"><img src="/static/img/baseAP_green.png" style=" position:absolute;left:100px  ;top:200px"  /></div>
 
 </body>
 </html>

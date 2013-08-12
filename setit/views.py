@@ -45,7 +45,7 @@ def showmonitor(request):
 	mapget = get_object_or_404(Maps, pk=int(cmdid))
 	positions = addresses.objects.filter(whichmap=mapget)
 	
-	return render_to_response('showmonitor.html',{'mapsrcfile':"upload/" + str(mapget.map),'positions':positions,'mapid':cmdid})
+	return render_to_response('showmonitor.html',{'mapsrcfile':"media/" + str(mapget.map),'positions':positions,'mapid':cmdid})
 
 def setmap(request):
 	datalists = Maps.objects.all()

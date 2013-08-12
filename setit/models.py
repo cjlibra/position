@@ -2,7 +2,7 @@
 from django.db import models
 
 # Create your models here.
-upload_dir = r"upload"
+upload_dir = r"./"
 class Labelusers(models.Model):
 	name = models.CharField(max_length=50,verbose_name="姓名：")
 	gender_choice=(
