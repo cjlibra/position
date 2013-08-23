@@ -1,6 +1,31 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<html><head>
+{% extends "admin/admin/base.html" %}
+{% load i18n %}
+{% block blockbots %}
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=7" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+ {% endblock %}
+
+ {% block extrahead %} 
+  <script src="/static/js/jquery-1.9.1.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+
+ {% endblock %}
+{% block title %}{{ title }}实时监控{% endblock %}
+{% block extracsscss %} 
+
+    <!-- Bootstrap -->
+	 <link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css"  />
+	<link href="/static/css/bootstrap-responsive.css"  type="text/css" rel="stylesheet" />
+    
+
+ {% endblock %}
+ {% block basecss %} {% endblock %}
+  {% block breadcrumbs %}
+{% endblock %}
+{%block content %}
+ 
 <script type="text/javascript" src="/static/js/jquery-1.9.1.min.js"></script>
 
 <script>
@@ -131,12 +156,17 @@ function putAp(){
 }
 window.onload = getfromurl;
 </script>
+<style type="text/css">
+.hezc{width:1280px; height:500px;line-height:200px;font-size:180px;text-align:center;display:table-cell; vertical-align:middle;border:1px solid #0000}
+.hezcimg{  width:1280px; height:500px;display:block; }
+</style>
+ 
 <title>监视地图</title></head>
 <body>
 
 <div id=showmap  style="display:block">
-<div style="width:1000px; height:2000px; border:#000000 solid 1px; position:absolute" id="main" >
-<img src="{{mapsrcfile}}"  style=" position:absolute; " id="pic1" />
+<div class="hezc" id="main" >
+<img class="hezcimg" src="{{mapsrcfile}}"     id="pic1"   />
 <div id="imgholder">
 	
 </div>
@@ -147,3 +177,5 @@ window.onload = getfromurl;
 
 </body>
 </html>
+
+{% endblock %}

@@ -4,7 +4,9 @@
 
 <title>{% block title %}{% endblock %}</title>
 {% block extracsscss %} {% endblock %}
+{% block basecss %}
 <link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% static "admin/css/base.css" %}{% endblock %}" />
+
 {% block extrastyle %}{% endblock %}
 <!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="{% block stylesheet_ie %}{% static "admin/css/ie.css" %}{% endblock %}" /><![endif]-->
 {% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% block stylesheet_rtl %}{% static "admin/css/rtl.css" %}{% endblock %}" />{% endif %}
@@ -13,9 +15,65 @@
 {% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE" />{% endblock %}
 </head>
 {% load i18n %}
-
+{% endblock %}
 <body class="{% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %}">
+{% block headbar %}
+ 
+ 
+ <div class="navbar">
+  <div class="navbar-inner">
+  <div class="container" style="width: auto;">
+    <a class="brand"  ><font color="#8000ff">人员定位管理系统</font></a>
+    <ul class="nav">
+      <li class="active"><a href="/admin/showmonitor?cmdid=0" target="_self">监控</a></li>
+	  
+   <li  class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" id="dropdownMenu1" href="#">地图<b class="caret"></b></a> </li>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1"   >
+  <li><a tabindex="-1" href="/admin/setit/maps/"  >管理地图</a></li>
+  <li><a tabindex="-1" href="/admin/setit/addresses/"  >设置位置</a></li>
+  <li class="divider"></li>
+  <li><a tabindex="-1" href="/admin/setmap"  > 位置画点 </a></li>
+   </ul> 
+    
+  <li  class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" id="dropdownMenu2" href="#"  align="center">设备<b class="caret"></b></a></li>  
+      
+	  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2" >
+	  <li><a  tabindex="-1" href="/admin/setit/stayer/" target="_self">设立基站</a></li>
+	  <li><a tabindex="-1"  href="/admin/setit/labels/" target="_self">标签设置</a></li>
+      </ul>
+	  <li><a href="/admin/setit/labelusers/" target="_self">人员</a></li>
+   
+ 
+   
 
+
+ 
+     
+      
+    </ul>
+	{% if user.is_active and user.is_staff %}
+        <div id="user-tools"  class="navbar-text pull-right">
+            {% trans 'Welcome,' %}
+            <strong>{% filter force_escape %}{% firstof user.get_short_name user.get_username %}{% endfilter %}</strong>.
+            {% block userlinkss %}
+                {% url 'django-admindocs-docroot' as docsroot %}
+                {% if docsroot %}
+                    <a href="{{ docsroot }}">{% trans 'Documentation' %}</a> /
+                {% endif %}
+                {% if user.has_usable_password %}
+                <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a> /
+                {% endif %}
+                <a href="{% url 'admin:logout' %}">{% trans 'Log out' %}</a>
+            {% endblock %}
+        </div>
+	{% endif %}
+	 <!--- <div class="navbar-text pull-right">   你好     </div>  -->
+  </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block maincontent %}
 <!-- Container -->
 <div id="container">
 
@@ -25,6 +83,7 @@
         <div id="branding">
         {% block branding %}{% endblock %}
         </div>
+		{% block userloginmsg %}
         {% if user.is_active and user.is_staff %}
         <div id="user-tools">
             {% trans 'Welcome,' %}
@@ -41,6 +100,7 @@
             {% endblock %}
         </div>
         {% endif %}
+		{% endblock %}
         {% block nav-global %}{% endblock %}
     </div>
     <!-- END Header -->
@@ -79,3 +139,4 @@
 
 </body>
 </html>
+{% endblock %}

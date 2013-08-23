@@ -1,19 +1,43 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<html><head>
-</script>
-<title>监视地图</title></head>
-<body>
+{% extends "admin/admin/base.html" %}
+{% load i18n %}
+{% block title %}监视地图1{% endblock %}
+{% block blockbots %}
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=7" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+ {% endblock %}
 
 
+
+{% block extracsscss %} 
+
+    <!-- Bootstrap -->
+	 <link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css"  />
+	<link href="/static/css/bootstrap-responsive.css"  type="text/css" rel="stylesheet" />
+     
+ <script src="/static/js/jquery-1.9.1.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+ 
+
+ {% endblock %}
+ {% block basecss %} {% endblock %}
+ 
+ 
+{% block breadcrumbs %}{% endblock %}
+
+
+
+{%block content %}
 <div  id="selectmap">
 
 <h1>请选地图:</h1><br/>
 {% for datalist in datalists  %}
-<a href="/showmonitor?cmdid={{datalist.id}}">{{datalist.mapname}}</a><br/>
+<a href="/admin/showmonitor?cmdid={{datalist.id}}">{{datalist.mapname}}</a><br/>
 
 {% endfor %}
 
 </div>
 </body>
 </html>
+{% endblock %}

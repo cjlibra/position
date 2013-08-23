@@ -12,18 +12,18 @@
     <script src="/static/js/bootstrap.min.js"></script>
 
  {% endblock %}
-{% block title %}{{ title }}人员定位系统 | 大宇宙{% endblock %}
+{% block title %}{{ title }}人员定位系统 | 管理{% endblock %}
 {% block extracsscss %} 
 
     <!-- Bootstrap -->
-	 <link href="/static/css/bootstrap.min.css" rel="stylesheet" type="text/css"  />
-	<link href="/static/css/bootstrap-responsive.min.css"  type="text/css" rel="stylesheet" />
+	 <link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css"  />
+	<link href="/static/css/bootstrap-responsive.css"  type="text/css" rel="stylesheet" />
     
 
  {% endblock %}
-{% block branding %}<h1 id="site-name"> 人员定位系统管理1</h1>{% endblock %}
+ {% block branding %} {% endblock %}  
 
- 
+ {% block userloginmsg %}{% endblock %}
 
 {% block nav-global %} {% endblock %}
 

@@ -9,7 +9,8 @@ from django.shortcuts import render_to_response
 from setit.models import *
 
 import json
-
+def showmainpage(request):
+	return render_to_response('main.html' ,{'LANGUAGE_CODE':'zh-cn','is_popup':1})
 
 def getwhereis(request):
 	mapid = request.GET["mapid"]
@@ -39,7 +40,7 @@ def showmonitor(request):
 		datalists = Maps.objects.all()
 	
 		
-		return render_to_response('showmonitor_select.html',{'datalists':datalists})
+		return render_to_response('showmonitor_select.html',{'datalists':datalists,'LANGUAGE_CODE':'zh-cn' ,'is_popup':1 })
 	
 	
 	mapget = get_object_or_404(Maps, pk=int(cmdid))

@@ -20,13 +20,14 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
 	url(r'^admin/setmap', setmap),
 	url(r'^possubmit',possubmit),
-	url(r'^showmonitor',showmonitor),
+	url(r'^/admin/showmonitor',showmonitor),
 	url(r'^getwhereis',getwhereis),
 	url(r'^showstayer',showstayer),
 	
     url(r'^admin/', include(admin.site.urls)),
 	##url(r'^/$', redirect_to, {'url': '/static/main/main.html'}), 
-	url(r'^$', RedirectView.as_view(url='/static/main/main.html')),  
+	#url(r'^$', RedirectView.as_view(url='/static/main/main.html')),  
+	url(r'^$', showmainpage ),  
 	
 	url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT,}),
 	#url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT,}),
