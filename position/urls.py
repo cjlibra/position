@@ -20,7 +20,7 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
 	url(r'^admin/setmap', setmap),
 	url(r'^possubmit',possubmit),
-	url(r'^/admin/showmonitor',showmonitor),
+	url(r'^showmonitor',showmonitor),
 	url(r'^getwhereis',getwhereis),
 	url(r'^showstayer',showstayer),
 	

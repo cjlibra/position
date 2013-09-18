@@ -12,7 +12,7 @@ import json
 def showmainpage(request):
 	return render_to_response('main.html' ,{'LANGUAGE_CODE':'zh-cn','is_popup':1})
 
-def getwhereis(request):
+def getwhereis(request):	
 	mapid = request.GET["mapid"]
 	mapobj = get_object_or_404(Maps, pk=int(mapid))
 	labels = Labels.objects.all()
@@ -28,6 +28,7 @@ def getwhereis(request):
 			continue
 		oneinfo["id"] = winfoget.label.serialno
 		oneinfo["name"] = winfoget.label.attachwho.name
+		oneinfo["onlyid"]=winfoget.stayer.address.id
 		oneinfo["x"] = winfoget.stayer.address.xpixel
 		oneinfo["y"] = winfoget.stayer.address.ypixel
 		oinfolist.append(oneinfo)
