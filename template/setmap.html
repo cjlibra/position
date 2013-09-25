@@ -1,6 +1,38 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<html><head>
+{% extends "admin/admin/base.html" %}
+{% load i18n %}
+{% block blockbots %}
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=7" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+ {% endblock %}
+
+ {% block extrahead %} 
+  <script src="/static/js/jquery-1.9.1.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+
+ {% endblock %}
+{% block title %}{{ title }}实时监控{% endblock %}
+{% block extracsscss %} 
+
+    <!-- Bootstrap -->
+	 <link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css"  />
+	<link href="/static/css/bootstrap-responsive.css"  type="text/css" rel="stylesheet" />
+    <script src="/static/js/jquery-1.9.1.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+
+ {% endblock %}
+ {% block basecss %} {% endblock %}
+  {% block breadcrumbs %}
+{% endblock %}
+{%block content %}
+<head>
+
+<style type="text/css">
+.hezc{width:1280px; height:500px;line-height:200px;font-size:180px;text-align:center;display:table-cell; vertical-align:middle;border:1px solid #0000}
+.hezcimg{  width:1280px; height:500px;display:block; }
+</style>
+
 <script type="text/javascript" src="/upload/js/jquery-1.9.1.min.js"></script>
 <script>
 
@@ -16,10 +48,11 @@ return {'x':e.clientX,'y':e.clientY}
 }
 
 function getMousePos(event) {
+$('#myModal').modal( );
    var s = document.getElementById("selectmap");
    s.style.display="none";
-   var s1 = document.getElementById("showmap");
-   s1.style.display="none";  
+  // var s1 = document.getElementById("showmap");
+  // s1.style.display="none";  
    var s2 = document.getElementById("backit");
    s2.style.display="none";
    var s3 = document.getElementById("showsubmit");
@@ -135,8 +168,8 @@ document.ondblclick = showselectmapdiv;
 </div>
 
 <div id=showmap  style="display:none">
-<div style="width:1280px; height:600px; border:#000000 solid 1px; position:absolute" id="main" >
-<img src=""  style=" position:absolute; " id="pic1" onclick="javascript:getMousePos();"/>
+<div class="hezc" id="main" >
+<img src=""  class="hezcimg" id="pic1" onclick="javascript:getMousePos();"/>
 <div id="imgholder">
 	
 </div>
@@ -146,7 +179,23 @@ document.ondblclick = showselectmapdiv;
 <div  id="backit"  style="display:none">
 <a href="javascrip:showselectmapdiv();"><h1>回去</h1></a>
 </div>
-<div id=showsubmit  style="display:none">
+
+
+
+
+
+
+<!-- Modal -->
+ 
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">编辑基站位置信息</h4>
+      </div>
+      <div class="modal-body"  id="mymodalbodytxt">
+ <div id=showsubmit  style="display:none">
 
 <form id="f" action="/possubmit" method="post">
 
@@ -163,5 +212,15 @@ document.ondblclick = showselectmapdiv;
 
 
 </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+       <!--- <button type="button" class="btn btn-primary">Save changes</button>  -->
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 </body>
 </html>
+
+{% endblock %}

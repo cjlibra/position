@@ -86,4 +86,7 @@ def possubmit(request):
 	stayer.save()
 	positions = addresses.objects.filter(whichmap=mapget)
 	#return HttpResponse("""<h1>成功添加基站</h1><a href="javascript:window.history.go(-1)">回到前一页</a>""")
-	return render_to_response('mappic.html',{'selectmapsrc':selectmapsrc, 'mapid':mapget.id,'positions':positions})
+	#return render_to_response('mappic.html',{'selectmapsrc':selectmapsrc, 'mapid':mapget.id,'positions':positions})
+	return HttpResponseRedirect("/admin/setmap") 
+	datalists = Maps.objects.all()
+	return render_to_response('setmap.html',{'datalists':datalists})
