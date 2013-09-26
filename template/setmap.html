@@ -57,6 +57,14 @@ $('#myModal').modal( );
    s2.style.display="none";
    var s3 = document.getElementById("showsubmit");
    s3.style.display = "block";
+    var s6 = document.getElementById("input1");
+   s6.style.display="block";
+   var s4 = document.getElementById("input2");
+   s4.style.display="none";
+   var s5 = document.getElementById("input3");
+   s5.style.display="none";
+   var s11 = document.getElementById("myModalLabel");
+	s11.innerHTML = "添加基站位置信息";
    
 var div1 = document.getElementById("pic1");
 //alert(locationLeft(div1));
@@ -123,7 +131,16 @@ function possubmit(){
    var s2 = document.getElementById("f");
    s2.submit();
 }
-
+function editsubmit(){
+	$("#hidden2").attr("value","2"); //编辑
+	var s2 = document.getElementById("f");
+    s2.submit();
+}
+function delsubmit(){
+	$("#hidden2").attr("value","3"); //删除
+	var s2 = document.getElementById("f");
+    s2.submit();
+}
 function getfromurl(mapid){
 $.ajax({
 type:"GET" ,
@@ -135,20 +152,49 @@ dealdata(data);
 }
 }); 
 }
-
+var stayerinfo;
 function dealdata(data){
-	var stayerinfo = $.parseJSON(data);
+	stayerinfo = $.parseJSON(data);
 	var mystrs="";
 	var div1 = document.getElementById("apholder");
 	for (var onestayer in stayerinfo) {
-		mystrs += ' <img src="/static/img/baseAP_green.png	" alt="'+stayerinfo[onestayer].addr+'"   style=" position:absolute;left:'+stayerinfo[onestayer].x+'px  ;top:'+stayerinfo[onestayer].y+'px  ;  "  />  ';
+		mystrs += ' <img src="/static/img/baseAP_green.png	" alt="'+stayerinfo[onestayer].addr+'"   style=" position:absolute;left:'+stayerinfo[onestayer].x+'px  ;top:'+stayerinfo[onestayer].y+'px  ;  "'+'  id="'+stayerinfo[onestayer].id+'"  onclick="showstayerInfo('+stayerinfo[onestayer].id +');"   data-toggle="modal" data-target="#myModal"  />  ';
 	 }
 	div1.innerHTML=mystrs; 
 
 	 
 }
 
-document.ondblclick = showselectmapdiv;
+function showstayerInfo(addressid){
+	alert(addressid);
+	var ss4 = document.getElementById("whichmap");
+ ss4.value = document.getElementById("maps").options[window.document.getElementById("maps").selectedIndex].text;
+ var ss5 = document.getElementById("hidden1");
+ ss5.value = document.getElementById("maps").options[window.document.getElementById("maps").selectedIndex].id;
+	var s1 = document.getElementById("myModalLabel");
+	s1.innerHTML = "编辑基站位置信息";
+   var s4 = document.getElementById("input1");
+   s4.style.display="none";
+   var s5 = document.getElementById("input3");
+   s5.style.display="block";
+   var s6 = document.getElementById("input2");
+   s6.style.display="block";
+	for (var onestayer in stayerinfo) {
+		if (stayerinfo[onestayer].id == addressid){
+			$("#addressid").attr("value",stayerinfo[onestayer].id);
+			$("#mapcomments").attr("value",  stayerinfo[onestayer].addr);
+			$("#xpixel").attr("value",  stayerinfo[onestayer].x);
+			$("#ypixel").attr("value",  stayerinfo[onestayer].y);
+			$("#apid").attr("value",  stayerinfo[onestayer].stayno);
+			$("#apcomments").attr("value",  stayerinfo[onestayer].staycomments); 
+			alert(stayerinfo[onestayer].staycomments);
+			break;
+		}
+	}
+
+
+}
+//document.ondblclick = showselectmapdiv;
 </script>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
@@ -192,22 +238,26 @@ document.ondblclick = showselectmapdiv;
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">编辑基站位置信息</h4>
+        <h4 class="modal-title" id="myModalLabel">添加基站位置信息</h4>
       </div>
       <div class="modal-body"  id="mymodalbodytxt">
- <div id=showsubmit  style="display:none">
+ <div id=showsubmit   >
 
 <form id="f" action="/possubmit" method="post">
 
 <br>
 <a>哪张地图：</a><input type="text"  value="maps" id="whichmap"><br>
 <input type="hidden"  value=""  id="hidden1" name="hidden1">
+<input type="hidden"  value=""  id="hidden2" name="hidden2">
+<input type="hidden"  value=""  id="addressid" name="addressid">
 <a>位置：</a><input type="text"  value="请简要说明位置！" id="mapcomments" name="mapcomments"><br>
 <a>x轴：</a><input type="text"  value="xxx"  id="xpixel" name="xpixel"><br>
 <a>y轴：</a><input type="text" value="yyy" id="ypixel" name="ypixel"><br>
 <a>基站唯一码：</a><input type="text"  value=" " id="apid" name="apname"><br>
 <a>基站说明：</a><input type="text"  value="请简要说明基站！" id="apcomments" name="apcomments"><br>
-<input type="button" onclick="possubmit();" value="Submit">
+<input type="button" onclick="possubmit();" id="input1" value="添加">
+<input type="button" onclick="editsubmit();" id="input2" value="编辑">
+<input type="button" onclick="delsubmit();" id="input3" value="删除">
 <br></form>
 
 

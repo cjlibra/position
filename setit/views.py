@@ -61,15 +61,31 @@ def showstayer(request):
 	addrs = addresses.objects.filter(whichmap=mapobj)
 	addrsinfo=[]
 	for addr in addrs:
+		Stayers = Stayer.objects.filter(address=addr )
+		for onestayer in Stayers :
+			stayerone = onestayer
+			break
 		oneaddrinfo={}
 		oneaddrinfo["addr"]= addr.address
+		oneaddrinfo["id"]= addr.id
 		oneaddrinfo["x"]=addr.xpixel
 		oneaddrinfo["y"]=addr.ypixel
+		oneaddrinfo["stayno"]=stayerone.serialno
+		oneaddrinfo["staycomments"]=stayerone.comments
 		addrsinfo.append(oneaddrinfo)
 	return HttpResponse(json.dumps(addrsinfo))
 
 
 def possubmit(request):
+	action = request.POST["hidden2"]
+	addressid = request.POST["addressid"]
+	if action == "3" :#删除
+		addr = get_object_or_404(addresses, pk=int(addressid))
+		addr.delete()
+		Stayer.objects.filter(address=addr).delete()
+		return HttpResponseRedirect("/admin/setmap") 
+		
+		
 	whichmap = request.POST["hidden1"]
 	whereis = request.POST["mapcomments"]
 	xpixel = request.POST["xpixel"]
