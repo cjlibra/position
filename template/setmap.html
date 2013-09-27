@@ -33,28 +33,27 @@
 .hezcimg{  width:1280px; height:500px;display:block; }
 </style>
 
-<script type="text/javascript" src="/upload/js/jquery-1.9.1.min.js"></script>
+ 
 <script>
 
 var stayerinfo;
 function getMousePos1(event) {
-var e = event || window.event;
-x = e.clientX;
-y = e.clientY;
-alert('x: ' + x + '\ny: ' + y);
+	var e = event || window.event;
+	x = e.clientX;
+	y = e.clientY;
+	alert('x: ' + x + '\ny: ' + y);
 
 
-return {'x':e.clientX,'y':e.clientY}
+	return {'x':e.clientX,'y':e.clientY}
 }
 
 function getMousePos(event) {
-$('#myModal').modal( );
-   var s = document.getElementById("selectmap");
-   s.style.display="none";
+	
+	$('#myModal').modal( );
+   initform();
   // var s1 = document.getElementById("showmap");
   // s1.style.display="none";  
-   var s2 = document.getElementById("backit");
-   s2.style.display="none";
+   
    var s3 = document.getElementById("showsubmit");
    s3.style.display = "block";
     var s6 = document.getElementById("input1");
@@ -66,22 +65,22 @@ $('#myModal').modal( );
    var s11 = document.getElementById("myModalLabel");
 	s11.innerHTML = "添加基站位置信息";
    
-var div1 = document.getElementById("pic1");
-//alert(locationLeft(div1));
-//alert(locationTop(div1));
-var e = event || window.event;
-var scrollX = document.documentElement.scrollLeft || document.body.scrollLeft;
-var scrollY = document.documentElement.scrollTop || document.body.scrollTop;
-var x = e.pageX || e.clientX + scrollX;
-var y = e.pageY || e.clientY + scrollY;
-//alert('x: ' + (x-locationLeft(div1)) + '\ny: ' + (y-locationTop(div1)));
- document.getElementById("xpixel").value=(x-locationLeft(div1));
- document.getElementById("ypixel").value=(y-locationTop(div1));
- var s4 = document.getElementById("whichmap");
- s4.value = document.getElementById("maps").options[window.document.getElementById("maps").selectedIndex].text;
- var s5 = document.getElementById("hidden1");
- s5.value = document.getElementById("maps").options[window.document.getElementById("maps").selectedIndex].id;
-return { 'x': x, 'y': y };
+	var div1 = document.getElementById("pic1");
+	//alert(locationLeft(div1));
+	//alert(locationTop(div1));
+	var e = event || window.event;
+	var scrollX = document.documentElement.scrollLeft || document.body.scrollLeft;
+	var scrollY = document.documentElement.scrollTop || document.body.scrollTop;
+	var x = e.pageX || e.clientX + scrollX;
+	var y = e.pageY || e.clientY + scrollY;
+	//alert('x: ' + (x-locationLeft(div1)) + '\ny: ' + (y-locationTop(div1)));
+	 document.getElementById("xpixel").value=(x-locationLeft(div1));
+	 document.getElementById("ypixel").value=(y-locationTop(div1));
+	 var s4 = document.getElementById("whichmap");
+	 s4.value = "{{mapname}}";
+	 var s5 = document.getElementById("hidden1");
+	 s5.value = "{{mapid}}";
+	return { 'x': x, 'y': y };
 }
 
 
@@ -106,38 +105,25 @@ function locationTop(element){
     return offsetTotal+scrollTotal;
 }
 function showmapdiv(){
-	var s = document.getElementById("selectmap");
-	s.style.display="none";
-	var s1 = document.getElementById("showmap");
-	s1.style.display="block";
-	var s3 = document.getElementById("pic1");
-	pic1.src = "../media/" + window.document.getElementById('maps').value ;
-	var mapid = window.document.getElementById('maps').selectedIndex ;
+ 	 
+	
+	var mapid = "{{mapid}}" ;
 	getfromurl(mapid);
 }
 
-function showselectmapdiv(){
-   var s = document.getElementById("selectmap");
-   s.style.display="block";
-   var s1 = document.getElementById("showmap");
-   s1.style.display="none";  
-   var s2 = document.getElementById("backit");
-   s2.style.display="block";
-
-}
+ 
 function possubmit(){
-   var s1 = document.getElementById("showmap");
-   s1.style.display="block"; 
+    
    var s2 = document.getElementById("f");
    s2.submit();
 }
 function editsubmit(){
-	$("#hidden2").attr("value","2"); //编辑
+	$("#hidden2").val("2"); //编辑
 	var s2 = document.getElementById("f");
     s2.submit();
 }
 function delsubmit(){
-	$("#hidden2").attr("value","3"); //删除
+	$("#hidden2").val("3"); //删除
 	var s2 = document.getElementById("f");
     s2.submit();
 }
@@ -157,8 +143,11 @@ function dealdata(data){
 	stayerinfo = $.parseJSON(data);
 	var mystrs="";
 	var div1 = document.getElementById("apholder");
+	var div2 = document.getElementById("pic1");
 	for (var onestayer in stayerinfo) {
-		mystrs += ' <img src="/static/img/baseAP_green.png	" alt="'+stayerinfo[onestayer].addr+'"   style=" position:absolute;left:'+stayerinfo[onestayer].x+'px  ;top:'+stayerinfo[onestayer].y+'px  ;  "'+'  id="'+stayerinfo[onestayer].id+'"  onclick="showstayerInfo('+stayerinfo[onestayer].id +');"   data-toggle="modal" data-target="#myModal"  />  ';
+		xx = ( (stayerinfo[onestayer].x)+locationLeft(div2));
+		yy = ( (stayerinfo[onestayer].y)+locationTop(div2));
+		mystrs += ' <img src="/static/img/baseAP_green.png	" alt="'+stayerinfo[onestayer].addr+'"   style=" position:absolute;left:'+xx+'px  ;top:'+yy+'px  ;  "'+'  id="'+stayerinfo[onestayer].id+'"  onclick="showstayerInfo('+stayerinfo[onestayer].id +');"   data-toggle="modal" data-target="#myModal"  />  ';
 	 }
 	div1.innerHTML=mystrs; 
 
@@ -166,11 +155,11 @@ function dealdata(data){
 }
 
 function showstayerInfo(addressid){
-	alert(addressid);
+	 initform();
 	var ss4 = document.getElementById("whichmap");
- ss4.value = document.getElementById("maps").options[window.document.getElementById("maps").selectedIndex].text;
+ ss4.value = "{{mapname}}";
  var ss5 = document.getElementById("hidden1");
- ss5.value = document.getElementById("maps").options[window.document.getElementById("maps").selectedIndex].id;
+ ss5.value = "{{mapid}}";
 	var s1 = document.getElementById("myModalLabel");
 	s1.innerHTML = "编辑基站位置信息";
    var s4 = document.getElementById("input1");
@@ -179,52 +168,51 @@ function showstayerInfo(addressid){
    s5.style.display="block";
    var s6 = document.getElementById("input2");
    s6.style.display="block";
+ 
 	for (var onestayer in stayerinfo) {
 		if (stayerinfo[onestayer].id == addressid){
-			$("#addressid").attr("value",stayerinfo[onestayer].id);
-			$("#mapcomments").attr("value",  stayerinfo[onestayer].addr);
-			$("#xpixel").attr("value",  stayerinfo[onestayer].x);
-			$("#ypixel").attr("value",  stayerinfo[onestayer].y);
-			$("#apid").attr("value",  stayerinfo[onestayer].stayno);
-			$("#apcomments").attr("value",  stayerinfo[onestayer].staycomments); 
-			alert(stayerinfo[onestayer].staycomments);
+			$("#addressid").val(stayerinfo[onestayer].id);
+			$("#mapcomments").val( stayerinfo[onestayer].addr);
+			$("#xpixel").val(  stayerinfo[onestayer].x);
+			
+			$("#xpixel").val( stayerinfo[onestayer].x)
+			$("#ypixel").val(  stayerinfo[onestayer].y);
+			$("#apid").val(  stayerinfo[onestayer].stayno);
+			$("#apcomments").val(  stayerinfo[onestayer].staycomments); 
+			 
 			break;
 		}
 	}
 
 
 }
-//document.ondblclick = showselectmapdiv;
+function initform() {
+	$("#addressid").val("");
+	$("#mapcomments").val( "请简要说明位置！");
+	$("#xpixel").val(  "");
+	$("#ypixel").val(  "");
+	$("#apid").val(  "");
+	$("#apcomments").val( "请简要说明基站！"); 
+
+}
+  showmapdiv();
 </script>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
 <title>地图标点</title></head>
 <body>
-<div id="selectmap">
-<form>
-<select name="maps"  onchange="javascript:showmapdiv();">
-<option value="请选地图">请选地图</option>
-{% for datalist in datalists  %}
-<option value="{{datalist.map}}" id="{{datalist.id}}"  >{{datalist.mapname}}</option>
+ 
 
-{% endfor %}
-</select>
-</form>
-
-</div>
-
-<div id=showmap  style="display:none">
+<div id=showmap   >
 <div class="hezc" id="main" >
-<img src=""  class="hezcimg" id="pic1" onclick="javascript:getMousePos();"/>
+<img src="{{mapsrcfile}}"  class="hezcimg" id="pic1" onclick="javascript:getMousePos();"/>
 <div id="imgholder">
 	
 </div>
 <div id="apholder"></div>
 </div>
 </div>
-<div  id="backit"  style="display:none">
-<a href="javascrip:showselectmapdiv();"><h1>回去</h1></a>
-</div>
+ 
 
 
 
@@ -246,13 +234,13 @@ function showstayerInfo(addressid){
 <form id="f" action="/possubmit" method="post">
 
 <br>
-<a>哪张地图：</a><input type="text"  value="maps" id="whichmap"><br>
+<a>哪张地图：</a><input type="text"  value="maps" id="whichmap"  readonly="readonly"><br>
 <input type="hidden"  value=""  id="hidden1" name="hidden1">
 <input type="hidden"  value=""  id="hidden2" name="hidden2">
 <input type="hidden"  value=""  id="addressid" name="addressid">
 <a>位置：</a><input type="text"  value="请简要说明位置！" id="mapcomments" name="mapcomments"><br>
-<a>x轴：</a><input type="text"  value="xxx"  id="xpixel" name="xpixel"><br>
-<a>y轴：</a><input type="text" value="yyy" id="ypixel" name="ypixel"><br>
+<a>x轴：</a><input type="text"  value="xxx"  id="xpixel" name="xpixel"  readonly="readonly"><br>
+<a>y轴：</a><input type="text" value="yyy" id="ypixel" name="ypixel"  readonly="readonly"><br>
 <a>基站唯一码：</a><input type="text"  value=" " id="apid" name="apname"><br>
 <a>基站说明：</a><input type="text"  value="请简要说明基站！" id="apcomments" name="apcomments"><br>
 <input type="button" onclick="possubmit();" id="input1" value="添加">

@@ -1,0 +1,15 @@
+{% extends "showmonitor_select.html" %}
+
+{%block content %}
+<div  id="selectmap">
+
+<h1>请选地图:</h1><br/>
+{% for datalist in datalists  %}
+<a href="setmap?cmdid={{datalist.id}}">{{datalist.mapname}}</a><br/>
+
+{% endfor %}
+
+</div>
+</body>
+</html>
+{% endblock %}

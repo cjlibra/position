@@ -50,10 +50,16 @@ def showmonitor(request):
 	return render_to_response('showmonitor.html',{'mapsrcfile':"media/" + str(mapget.map),'positions':positions,'mapid':cmdid})
 
 def setmap(request):
-	datalists = Maps.objects.all()
+	try :
+		mapid = request.GET["cmdid"]
+		mapobj = get_object_or_404(Maps, pk=int(mapid))
+		return render_to_response('setmap.html',{'mapsrcfile':"/media/" + str(mapobj.map),  'mapid':mapid ,'mapname':mapobj.mapname})
+
+	except :
+		datalists = Maps.objects.all()		
+		return render_to_response('setmap_select.html',{'datalists':datalists})
 	
-		
-	return render_to_response('setmap.html',{'datalists':datalists})
+
 	
 def showstayer(request):
 	mapid = request.GET["mapid"]
@@ -77,16 +83,17 @@ def showstayer(request):
 
 
 def possubmit(request):
+	whichmap = request.POST["hidden1"]
 	action = request.POST["hidden2"]
 	addressid = request.POST["addressid"]
 	if action == "3" :#删除
 		addr = get_object_or_404(addresses, pk=int(addressid))
 		addr.delete()
 		Stayer.objects.filter(address=addr).delete()
-		return HttpResponseRedirect("/admin/setmap") 
+		return HttpResponseRedirect("/admin/setmap?cmdid=%s" %whichmap) 
 		
 		
-	whichmap = request.POST["hidden1"]
+	
 	whereis = request.POST["mapcomments"]
 	xpixel = request.POST["xpixel"]
 	ypixel = request.POST["ypixel"]
@@ -94,15 +101,20 @@ def possubmit(request):
 	apcomments = request.POST["apcomments"]
 	if (whichmap == "" or whereis == "" or xpixel=="" or ypixel=="") :
 		return  HttpResponse("<h1>输入出错</h1>")
+	if action == "2" : #编辑
+		addr = get_object_or_404(addresses, pk=int(addressid))
+		addr.address = whereis
+		addr.save()
+		ap = Stayer.objects.get(address= addr)
+		ap.serialno = apid
+		ap.comments = apcomments
+		ap.save()
+		return HttpResponseRedirect("/admin/setmap?cmdid=%s" %whichmap) 
 	mapget = get_object_or_404(Maps, pk=int(whichmap))
 	selectmapsrc = "upload/" +str( mapget.map)
 	addr = addresses(whichmap=mapget ,address=whereis,xpixel=int(xpixel),ypixel=int(ypixel))
 	addr.save()
 	stayer = Stayer(serialno=apid,address=addr,comments=apcomments)
 	stayer.save()
-	positions = addresses.objects.filter(whichmap=mapget)
-	#return HttpResponse("""<h1>成功添加基站</h1><a href="javascript:window.history.go(-1)">回到前一页</a>""")
-	#return render_to_response('mappic.html',{'selectmapsrc':selectmapsrc, 'mapid':mapget.id,'positions':positions})
-	return HttpResponseRedirect("/admin/setmap") 
-	datalists = Maps.objects.all()
-	return render_to_response('setmap.html',{'datalists':datalists})
+	positions = addresses.objects.filter(whichmap=mapget)	 
+	return HttpResponseRedirect("/admin/setmap?cmdid=%s" %whichmap) 

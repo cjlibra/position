@@ -35,7 +35,26 @@ var s = 300;
 
 
 
-
+//find the screen location of an element
+function locationLeft(element){
+    offsetTotal = element.offsetLeft;
+    scrollTotal = 0; //element.scrollLeft but we dont want to deal with scrolling - already in page coords
+    if (element.tagName != "BODY"){
+       if (element.offsetParent != null)
+          return offsetTotal+scrollTotal+locationLeft(element.offsetParent);
+    }
+    return offsetTotal+scrollTotal;
+}
+//find the screen location of an element
+function locationTop(element){
+    offsetTotal = element.offsetTop;
+    scrollTotal = 0; //element.scrollTop but we dont want to deal with scrolling - already in page coords
+    if (element.tagName != "BODY"){
+       if (element.offsetParent != null)
+          return offsetTotal+scrollTotal+locationTop(element.offsetParent);
+    }
+    return offsetTotal+scrollTotal;
+}
 
 
 function getdatafromurl()
@@ -69,14 +88,16 @@ function walk(oneinfo, origx, origy)
 	var yflag;
 	var outloop;
 	
-				
-		if (info[oneinfo].x  > origx) {
+		var div2 = document.getElementById("pic1");	
+		xdiv = locationLeft(div2);
+		ydiv = locationTop(div2)
+		if (info[oneinfo].x+xdiv  > origx) {
 		    xflag = 1;
 		}else{
 			xflag = -1;
 		}
 		
-		if (info[oneinfo].y  >origy) {
+		if (info[oneinfo].y+ydiv  >origy) {
 			yflag = 1;
 		}else{
 			yflag = -1;
@@ -84,12 +105,12 @@ function walk(oneinfo, origx, origy)
 		var img1 = document.getElementById(info[oneinfo].id.toString());
 		img1.style.pixelLeft = img1.style.pixelLeft + xflag * nstep;
 		
-		img1.style.pixelTop = img1.style.pixelTop + yflag * Math.abs((info[oneinfo].y-origy)/((info[oneinfo].x-origx)/nstep))
+		img1.style.pixelTop = img1.style.pixelTop + yflag * Math.abs((info[oneinfo].y+ydiv-origy)/((info[oneinfo].x+xdiv-origx)/nstep))
 		if (xflag == 1) {
-			if (img1.style.pixelLeft >= info[oneinfo].x ){
+			if (img1.style.pixelLeft >= info[oneinfo].x+xdiv ){
 				
-				img1.style.pixelLeft = info[oneinfo].x ;
-				img1.style.pixelTop = info[oneinfo].y;
+				img1.style.pixelLeft = info[oneinfo].x+locationLeft(div2) ;
+				img1.style.pixelTop = info[oneinfo].y+locationTop(div2);
 				clearTimeout( outloop);
 				return;
 				
@@ -97,10 +118,10 @@ function walk(oneinfo, origx, origy)
 			outloop =setTimeout("walk("+oneinfo+","+origx+","+origy+")",s);
 			
 	    }else{
-			if (img1.style.pixelLeft <=info[oneinfo].x ){
+			if (img1.style.pixelLeft <=info[oneinfo].x+xdiv ){
 				
-				img1.style.pixelLeft = info[oneinfo].x ;
-				img1.style.pixelTop = info[oneinfo].y;
+				img1.style.pixelLeft = info[oneinfo].x+locationLeft(div2) ;
+				img1.style.pixelTop = info[oneinfo].y+locationTop(div2);
 				clearTimeout( outloop);
 				return;
 			}
@@ -165,8 +186,13 @@ function showLabelsInfo( posid){
 }
 function putAp(){
 	var div1 = document.getElementById("apholder");
-	mystrs = '{% for position in positions %}<img src="/static/img/baseAP_green.png	" id="{{position.id}}" alt="{{position.address}}"   style=" position:absolute;left:{{position.xpixel }}px  ;top:{{position.ypixel}}px  ;  " onclick="showLabelsInfo({{position.id}});"   data-toggle="modal" data-target="#myModal"  /> {% endfor %}';
-	 
+	mystrs = "";
+	var div2 = document.getElementById("pic1");
+	{% for position in positions %}
+	xx = {{position.xpixel}}+locationLeft(div2);
+	yy = {{position.ypixel}}+locationTop(div2) ;
+	mystrs += '<img src="/static/img/baseAP_green.png	" id="{{position.id}}" alt="{{position.address}}"   style=" position:absolute;left:'+xx+'px  ;top:'+yy+'px  ;  " onclick="showLabelsInfo({{position.id}});"   data-toggle="modal" data-target="#myModal"  /> ';
+	{% endfor %} 
 	div1.innerHTML=mystrs; 
 
 }

@@ -50,7 +50,15 @@ class addresses(models.Model):
 	ypixel = models.IntegerField(verbose_name="y轴：")
 	
 	def __unicode__(self):
-		return "%d" % self.xpixel +"-"+"%d" %self.ypixel
+		returnstr = "%s"%self.whichmap.mapname
+		returnstr = returnstr+"-"
+		returnstr = returnstr+self.address
+		returnstr = returnstr+"("
+		returnstr = returnstr+"%d" % self.xpixel  
+		returnstr = returnstr+"*"
+		returnstr = returnstr+"%d" %self.ypixel
+		returnstr = returnstr+")"
+		return returnstr
 	class Meta:
 		verbose_name_plural = '位置'
 		verbose_name = '位置'
