@@ -85,4 +85,35 @@ class whereinfo(models.Model):
 	class Meta:
 		verbose_name_plural = '人员位置信息'
 		verbose_name = '人员位置信息'
+
+class alarminfo(models.Model):
+	level_choice=(
+	(0,"甲级"),
+	(1,"乙级"),
+	(2,"丙级"),
+	(3,"丁级"),
+	)
+	level = models.IntegerField(choices=level_choice,verbose_name="警报级别：")
+	alarminfo = models.CharField(max_length=300,verbose_name="警报内容：" )
+	time = models.DateTimeField(auto_now=True,verbose_name="警报时间：") 
+	dealed = models.BooleanField(verbose_name="已处理")
 	
+	def __unicode__(self):
+		return u"警报信息"
+		
+	class Meta:
+		verbose_name_plural = '警报信息群'
+		verbose_name = '警报信息条'
+		
+class zonelimit(models.Model):	
+	label = models.ForeignKey(Labels,verbose_name="标签：")
+	stayer = models.ForeignKey(Stayer,verbose_name="基站：")
+	time =  models.DateTimeField(auto_now=True,verbose_name="记录时间：") 
+	
+	
+	def __unicode__(self):
+		return u"限制标签"
+	
+	class Meta:
+		verbose_name_plural = '限制标签群'
+		verbose_name = '限制标签条'

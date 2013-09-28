@@ -8,6 +8,8 @@ from django.views.decorators.csrf import csrf_protect
 from django.shortcuts import render_to_response
 from setit.models import *
 
+from django.contrib.auth.decorators import login_required
+
 import json
 def showmainpage(request):
 	return render_to_response('main.html' ,{'LANGUAGE_CODE':'zh-cn','is_popup':1})
@@ -34,7 +36,8 @@ def getwhereis(request):
 		oinfolist.append(oneinfo)
 		 
 	return  HttpResponse(json.dumps(oinfolist))
-		
+	
+@login_required(login_url='/admin/')
 def showmonitor(request):
 	cmdid = request.GET["cmdid"]
 	if ( cmp(cmdid ,"0") == 0) :
